@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公告產生器</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            background-color: #f7f7f7;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .announcement {
+            font-size: 56px;
+            text-align: center;
+            line-height: 1.5;
+            margin-top: 50px;
+            resize: both;
+            overflow: auto;
+        }
+        #printBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #printBtn:hover {
+            background-color: #0056b3;
+        }
+        #fontSizeInput {
+            display: block;
+            margin: 10px auto;
+            padding: 5px;
+            font-size: 16px;
+        }
+        @media print {
+            #printBtn, #fontSizeInput, #updateBtn, #userInput, .input-area, .print-link {
+                display: none;
+            }
+            body, html {
+                height: 297mm;
+                width: 210mm;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                border: none;
+                box-shadow: none;
+                width: 100%;
+                height: auto;
+                page-break-after: avoid;
+            }
+        }
+        .input-area {
+            margin: 20px auto;
+            text-align: center;
+        }
+        .input-field {
+            width: 100%;
+            max-width: 600px;
+            height: 100px;
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" id="announcement">
+    <div class="announcement" id="announcementText">
+        敬啟住戶：<br><br>
+        本週二(10/10) 將進行XXXX 作業，時間為早上8點至下午5點，打擾請見諒。<br><br>
+        謝謝您的配合！<br><br>
+        管理委員會
+    </div>
+</div>
+
+<div class="input-area">
+    <textarea id="userInput" class="input-field" placeholder="請在此輸入公告內容..."></textarea><br>
+    <button id="updateBtn">更新公告</button>
+    <input type="range" id="fontSizeInput" min="16" max="72" value="56"> 調整字體大小
+</div>
+
+<button id="printBtn">下載公告為 PDF</button>
+
+<script>
+    document.getElementById("printBtn").addEventListener("click", function() {
+        if (confirm("確定要下載公告為 PDF 嗎？")) {
+            window.print();
+        }
+    });
+
+    document.getElementById("updateBtn").addEventListener("click", function() {
+        const userInput = document.getElementById("userInput").value;
+        document.getElementById("announcementText").innerHTML = userInput.replace(/\n/g, "<br>");
+    });
+
+    document.getElementById("fontSizeInput").addEventListener("input", function() {
+        const fontSize = document.getElementById("fontSizeInput").value;
+        document.getElementById("announcementText").style.fontSize = fontSize + "px";
+    });
+</script>
+
+</body>
+</html>
